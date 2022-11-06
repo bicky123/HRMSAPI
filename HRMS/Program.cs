@@ -102,7 +102,10 @@ app.UseCors("CorsApi");
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseAPIKeyMiddleware();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseAPIKeyMiddleware();
+}
 
 app.MapControllers();
 
