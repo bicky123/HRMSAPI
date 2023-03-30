@@ -20,6 +20,12 @@ namespace HRMS.Business.Commands.Handlers
 
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            var roleStore = new RoleStore<IdentityRole>(_context);
+            if (!_context.Roles.Any(r => r.Name == RoleValue.Owner))
+            {
+                await roleStore.CreateAsync(new IdentityRole { Name = RoleValue.Owner.ToLower(), NormalizedName = RoleValue.Owner.ToUpper() });
+                await _context.SaveChangesAsync();
+            }
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -36,11 +42,6 @@ namespace HRMS.Business.Commands.Handlers
                         UpdatedBy = request.Model.Email
                     };
                     await _userManager.CreateAsync(user, request.Model.Password);
-
-                    var roleStore = new RoleStore<IdentityRole>(_context);
-                    if (!_context.Roles.Any(r => r.Name == RoleValue.Owner))
-                        await roleStore.CreateAsync(new IdentityRole { Name = RoleValue.Owner.ToLower(), NormalizedName = RoleValue.Temp.ToUpper() });
-
                     await _userManager.AddToRolesAsync(user, new List<string> { RoleValue.Owner });
                     await _context.SaveChangesAsync();
 

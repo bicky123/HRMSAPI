@@ -73,7 +73,7 @@ namespace HRMS.Controllers
         }
 
         [HttpPost("Login", Name = "Login")]
-        public async Task<ActionResult<DataResponse<LoginResponseModel>>> Login(LoginRequestModel model)
+        public async Task<ActionResult<DataResponse<LoginResponseModel>>> Login([FromBody] LoginRequestModel model)
         {
             var validator = new LoginRequestModelValidator();
             var result = await validator.ValidateAsync(model);

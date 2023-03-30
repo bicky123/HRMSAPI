@@ -7,7 +7,7 @@ namespace HRMS.EFDb.UnitsOfWork
     public class UnitOfWork : IUnitOfWork
     {
         public AppDbContext DbContext { get; init; }
-        public string ConnectionString { get; init; }
+        public string? ConnectionString { get; init; }
         public IOwnersRepository Owners { get; init; }
         public IRentersRepository Renters { get; init; }
         public IHousesRepository Houses { get; init; }

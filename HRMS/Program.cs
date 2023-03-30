@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using HRMS._Helpers;
+using HRMS.Business.Commands;
 using HRMS.Business.Queries.InputQueryMapper;
 using HRMS.Business.Queries.InputResultMapper;
 using HRMS.Comman.ApiResponse;
@@ -41,6 +42,8 @@ builder.Services.AddControllers(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -66,9 +69,10 @@ var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new QueryMapperProfile());
     mc.AddProfile(new QueryResultMapperProfile());
+    mc.AddProfile(new CommandMapperProfile());
 });
 
-IMapper mapper = mapperConfig.CreateMapper();
+var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 
