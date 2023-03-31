@@ -26,7 +26,7 @@ builder.Services.AddControllers(options =>
     {
         options.InvalidModelStateResponseFactory = context =>
         {
-            var result = new BadRequestObjectResult(new Response(400, "Invalid data types"));
+            var result = new BadRequestObjectResult(new Response(StatusCodes.Status400BadRequest, "Invalid data types"));
             // TODO: add `using System.Net.Mime;` to resolve MediaTypeNames
             result.ContentTypes.Add(MediaTypeNames.Application.Json);
             return result;
