@@ -42,7 +42,6 @@ public class LocationController : ControllerBase
         return Ok(new DataResponse<List<GetStateListByCountryIdQueryResult>>(StatusCodes.Status200OK, commanResult.Result));
     }
 
-    [AllowAnonymous]
     [HttpPost("addCountry", Name = "addCountry")]
     public async Task<ActionResult<Response>> AddCountry([FromBody] AddCountryRequestModel model)
     {
